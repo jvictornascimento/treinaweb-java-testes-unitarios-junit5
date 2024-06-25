@@ -49,7 +49,7 @@ class EmprestimoServiceTest {
     void quandoMetodoForChamadoComCLienteDeReputacaoRegularDeveRetornarUmEmpretimoComDevolucaoParaTresDias(){
         // cenario
         var emprestimoService = new EmprestimoService();
-        var cliente  = new Cliente(1L,"Cliente teste",LocalDate.now(),"123.123.123-11", Reputacao.RUIM);
+        var cliente  = new Cliente(1L,"Cliente teste",LocalDate.now(),"123.123.123-11", Reputacao.REGULAR);
         var autor = new Autor(1L, "Autor teste",LocalDate.now(),null);
         var obra = new Obra(1L,"Obra Teste",100, Tipo.LIVRO,autor);
 
@@ -63,7 +63,7 @@ class EmprestimoServiceTest {
     void quandoMetodoForChamadoComCLienteDeReputacaoBoaDeveRetornarUmEmpretimoComDevolucaoParaCincoDias(){
         // cenario
         var emprestimoService = new EmprestimoService();
-        var cliente  = new Cliente(1L,"Cliente teste",LocalDate.now(),"123.123.123-11", Reputacao.RUIM);
+        var cliente  = new Cliente(1L,"Cliente teste",LocalDate.now(),"123.123.123-11", Reputacao.BOA);
         var autor = new Autor(1L, "Autor teste",LocalDate.now(),null);
         var obra = new Obra(1L,"Obra Teste",100, Tipo.LIVRO,autor);
 
