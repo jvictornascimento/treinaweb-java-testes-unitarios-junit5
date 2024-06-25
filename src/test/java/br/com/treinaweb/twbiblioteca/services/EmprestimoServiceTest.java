@@ -8,6 +8,7 @@ import br.com.treinaweb.twbiblioteca.models.Obra;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -72,6 +73,40 @@ class EmprestimoServiceTest {
 
         //verificação
         assertEquals(LocalDate.now().plusDays(5), emprestimo.getDataDevolucao());
+    }
+
+    @Test
+    void quandoUmMetodoForChamadoComObrasNulasDeveLancarUmaExcecaoDoTipoIligalArgumentException(){
+
+        var emprestimoService = new EmprestimoService();
+        var cliente  = new Cliente(1L,"Cliente teste",LocalDate.now(),"123.123.123-11", Reputacao.BOA);
+        var mensagemEsperada = "Obra não pode ser nulo nem vazio";
+
+        var exceptions = assertThrows(IllegalArgumentException.class, ()-> emprestimoService.novo(cliente,null));
+        assertEquals(mensagemEsperada,exceptions.getMessage());
+    }
+
+    @Test
+    void quandoUmMetodoForChamadoComObrasVaziasDeveLancarUmaExcecaoDoTipoIligalArgumentException(){
+
+        var emprestimoService = new EmprestimoService();
+        var cliente  = new Cliente(1L,"Cliente teste",LocalDate.now(),"123.123.123-11", Reputacao.BOA);
+        var obras = new ArrayList<Obra>();
+        var mensagemEsperada = "Obra não pode ser nulo nem vazio";
+
+        var exceptions = assertThrows(IllegalArgumentException.class, ()-> emprestimoService.novo(cliente,obras));
+        assertEquals(mensagemEsperada,exceptions.getMessage());
+    }
+    @Test
+    void quandoUmMetodoForChamadoComClienteNuloDeveLancarUmaExcecaoDoTipoIligalArgumentException(){
+
+        var emprestimoService = new EmprestimoService();
+        var autor = new Autor(1L, "Autor teste",LocalDate.now(),null);
+        var obra = new Obra(1L,"Obra Teste",100, Tipo.LIVRO,autor);
+        var mensagemEsperada = "Cliente não pode ser nulo";
+
+        var exceptions = assertThrows(IllegalArgumentException.class, ()-> emprestimoService.novo(null,List.of(obra)));
+        assertEquals(mensagemEsperada,exceptions.getMessage());
     }
 
 }
