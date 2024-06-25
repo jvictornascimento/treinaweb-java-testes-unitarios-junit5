@@ -6,8 +6,7 @@ import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class AutorTest {
     @Test
@@ -15,7 +14,7 @@ public class AutorTest {
         var autor =new Autor();
 
         var estaVivo = autor.estaVivo();
-        assertEquals(true,estaVivo);
+        assertTrue(estaVivo);
     }
     @Test
     void quandoMetodoForChamadoComDataFalecimetnoPreenchidaDeveRetornarFalse(){
@@ -27,6 +26,6 @@ public class AutorTest {
         var estaVivo= autor.estaVivo();
 
         //verificação
-        assertEquals(false,estaVivo);
+        assertFalse(estaVivo);
     }
 }
