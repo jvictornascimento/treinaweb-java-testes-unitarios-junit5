@@ -1,14 +1,13 @@
-package br.com.treinaweb.twbiblioteca.model;
+package br.com.treinaweb.twbiblioteca.models;
 
-import br.com.treinaweb.twbiblioteca.models.Autor;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class AutorTest {
+class AutorTest {
+
     @Test
     void quandoMetodoEstaVivoForChamadoComDataFalecimentoNulaDeveRetornarTrue(){
         var autor =new Autor();
