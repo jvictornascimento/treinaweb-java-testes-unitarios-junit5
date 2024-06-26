@@ -1,11 +1,17 @@
 package br.com.treinaweb.twbiblioteca.services;
 
 import br.com.treinaweb.twbiblioteca.builders.ClienteBuilder;
+import br.com.treinaweb.twbiblioteca.builders.EmprestimoBuilder;
 import br.com.treinaweb.twbiblioteca.builders.ObraBuilder;
+import br.com.treinaweb.twbiblioteca.dao.EmprestimoDao;
 import br.com.treinaweb.twbiblioteca.enums.Reputacao;
 import br.com.treinaweb.twbiblioteca.models.Obra;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -13,15 +19,22 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
+
+@ExtendWith(MockitoExtension.class)
 class EmprestimoServiceTest {
 
+    @Mock
+    private EmprestimoDao emprestimoDao;
+
+    @Mock
+    private NotificacaoService notificacaoService;
+
+    @InjectMocks
     private EmprestimoService emprestimoService;
 
-    @BeforeEach
-    void setUp(){
-       emprestimoService = new EmprestimoService();
-    }
     @Test
     void quandoMetodoForChamadoDeveRetornarUmEmprestimo(){
         // cenario
@@ -103,6 +116,18 @@ class EmprestimoServiceTest {
 
         var exceptions = assertThrows(IllegalArgumentException.class, ()-> emprestimoService.novo(null,List.of(obra)));
         assertEquals(mensagemEsperada,exceptions.getMessage());
+    }
+
+    @Test
+    void quandoMetodoNotificarAtrasoForChamadoDeveRetornarNumeroDeNotificacoes() {
+        var emprestimos = List.of(
+                EmprestimoBuilder.builder().build(),
+                EmprestimoBuilder.builder().dataDevolucao(LocalDate.now().minusDays(1)).build()
+        );
+        when(emprestimoDao.buscarTodos()).thenReturn(emprestimos);
+        emprestimoService.notificarAtraso();
+        verify(notificacaoService).notificar(emprestimos.get(1));
+
     }
 
 }
